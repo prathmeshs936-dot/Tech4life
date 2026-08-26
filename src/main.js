@@ -110,8 +110,35 @@ async function fetchTeamCount() {
     updateWidget(countEl,  fillEl,  trackEl);
     updateWidget(countEl2, fillEl2, trackEl2);
 
+    // ── Lock registration when slots are full ──
+    if (count >= max) {
+      const heroBtn = document.getElementById('registerBtn');
+      const ctaBtn  = document.getElementById('registerBtn2');
+      const navBtn  = document.getElementById('navRegisterBtn');
+
+      [heroBtn, ctaBtn].forEach(btn => {
+        if (btn) {
+          btn.href = '#';
+          btn.removeAttribute('target');
+          btn.removeAttribute('rel');
+          btn.textContent = 'Registrations Full';
+          btn.classList.add('btn-disabled');
+          btn.setAttribute('aria-disabled', 'true');
+          btn.addEventListener('click', e => e.preventDefault(), { capture: true });
+        }
+      });
+
+      if (navBtn) {
+        navBtn.textContent = 'Full';
+        navBtn.classList.add('btn-disabled');
+      }
+
+      // Mark progress bars as full
+      [fillEl, fillEl2].forEach(f => { if (f) f.classList.add('full'); });
+    }
+
   } catch (err) {
-    console.warn('[Hack-X] Could not fetch team count:', err);
+    console.warn('[TECH4LIFE] Could not fetch team count:', err);
     if (countEl  && countEl.textContent  === '--') countEl.textContent  = '?';
     if (countEl2 && countEl2.textContent === '--') countEl2.textContent = '?';
   }

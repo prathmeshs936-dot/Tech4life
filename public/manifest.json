@@ -1,7 +1,7 @@
 {
-  "name": "Hack-X 2026 — National Medical Hackathon",
-  "short_name": "Hack-X",
-  "description": "Hack-X 2026: 32-Hour National Medical Hackathon. Innovate · Heal · Impact",
+  "name": "TECH4LIFE 2026 — National Medical Hackathon",
+  "short_name": "TECH4LIFE",
+  "description": "TECH4LIFE 2026: 32-Hour National Medical Hackathon. Innovate · Heal · Impact",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
@@ -10,13 +10,13 @@
   "categories": ["education", "events"],
   "icons": [
     {
-      "src": "/assets/hackx-logo.png",
+      "src": "/assets/tech4life-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/hackx-logo.png",
+      "src": "/assets/tech4life-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

@@ -1141,3 +1141,26 @@ footer{padding:36px 0 28px;}
   .countdown-unit { min-width: 72px; padding: 16px 14px; }
   .countdown-sep  { font-size: 24px; }
 }
+
+/* ── Registration Full / Disabled State ── */
+.btn-disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  filter: grayscale(0.4);
+  box-shadow: none !important;
+  animation: none !important;
+}
+.btn-disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-cta.btn-disabled {
+  opacity: 0.45 !important;
+  background: var(--text-muted) !important;
+  color: var(--bg) !important;
+}
+.live-reg-fill.full {
+  background: var(--crimson) !important;
+  box-shadow: 0 0 12px var(--crimson) !important;
+}
