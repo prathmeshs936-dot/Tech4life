@@ -16,12 +16,12 @@ const CONFIG = {
   teamCountUrl: "https://script.google.com/macros/s/AKfycbxik4daTZ90Jezg0ZnSqq8O-UpR7bGX_fYGoPN-KgEpMRw3VS0INJdBP2rVpg1aUvm4TQ/exec",
 
   // Max team slots available
-  teamCountMax: 40,
+  teamCountMax: 10,
 
   // Set to a real date string (e.g. "2026-08-28") once confirmed,
   // or leave as null to keep showing the provisional label.
   eventDateISO: null,
-  eventDateLabel: "10th - 11th September 2026"
+  eventDateLabel: "8th - 9th September 2026"
 };
 
 function applyConfig(){
@@ -149,10 +149,10 @@ fetchTeamCount();
 setInterval(fetchTeamCount, 60_000);
 
 // =====================================================================
-// COUNTDOWN TIMER — counts down to 10th September 2026 00:00:00 IST
+// COUNTDOWN TIMER — counts down to 8th September 2026 00:00:00 IST
 // =====================================================================
 (function initCountdown() {
-  const TARGET = new Date('2026-09-10T00:00:00+05:30').getTime();
+  const TARGET = new Date('2026-09-08T00:00:00+05:30').getTime();
 
   const cdDays    = document.getElementById('cdDays');
   const cdHours   = document.getElementById('cdHours');
