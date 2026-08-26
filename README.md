@@ -74,7 +74,7 @@ const CONFIG = {
   submissionRepoUrl: 'https://github.com/...',
   
   // Event start date for the countdown timer
-  eventDateISO: '2026-08-29T09:00:00+05:30'
+  eventDateISO: '2026-09-10T09:00:00+05:30'
 };
 ```
 

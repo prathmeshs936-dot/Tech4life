@@ -21,7 +21,7 @@ const CONFIG = {
   // Set to a real date string (e.g. "2026-08-28") once confirmed,
   // or leave as null to keep showing the provisional label.
   eventDateISO: null,
-  eventDateLabel: "29th - 30th August 2026"
+  eventDateLabel: "10th - 11th September 2026"
 };
 
 function applyConfig(){
@@ -149,10 +149,10 @@ fetchTeamCount();
 setInterval(fetchTeamCount, 60_000);
 
 // =====================================================================
-// COUNTDOWN TIMER — counts down to 29th August 2026 00:00:00 IST
+// COUNTDOWN TIMER — counts down to 10th September 2026 00:00:00 IST
 // =====================================================================
 (function initCountdown() {
-  const TARGET = new Date('2026-08-29T00:00:00+05:30').getTime();
+  const TARGET = new Date('2026-09-10T00:00:00+05:30').getTime();
 
   const cdDays    = document.getElementById('cdDays');
   const cdHours   = document.getElementById('cdHours');
