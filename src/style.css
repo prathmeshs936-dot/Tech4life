@@ -268,46 +268,47 @@ header{
 }
 nav{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 24px;
+  padding:12px 28px;
   width:100%;
-  gap:16px;
+  gap:20px;
 }
 .brand{
-  font-family:var(--display);font-weight:700;font-size:20px;
-  display:flex;align-items:center;gap:9px;
+  font-family:var(--display);font-weight:700;font-size:21px;
+  display:flex;align-items:center;gap:10px;
 }
 .brand .dot{color:var(--crimson);}
-.brand-logo{height:40px;width:auto;object-fit:contain;display:block;}
-.footer-brand-logo{height:52px;width:auto;object-fit:contain;display:block;}
-.brand-group{display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.nav-brand-divider{display:block;width:1px;height:28px;background:var(--nav-divider);flex-shrink:0;transition:background .4s;}
-.nav-org-logos{display:flex;align-items:center;gap:11px;flex-wrap:nowrap;}
+.brand-logo{height:46px;width:auto;object-fit:contain;display:block;}
+.footer-brand-logo{height:54px;width:auto;object-fit:contain;display:block;}
+.brand-group{display:flex;align-items:center;gap:16px;flex-shrink:0;}
+.nav-brand-divider{display:block;width:1px;height:38px;background:var(--nav-divider);flex-shrink:0;transition:background .4s;}
+.nav-org-logos{display:flex;align-items:center;gap:15px;flex-wrap:nowrap;}
 .nav-org-logo{
-  height:26px;width:auto;object-fit:contain;
+  height:36px;width:auto;object-fit:contain;
   flex-shrink:0;
   transition:transform .2s ease, opacity .2s ease;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,0.12));
 }
 .nav-org-logo:hover{
-  transform:scale(1.06);
+  transform:scale(1.08);
 }
-.nav-org-dypu{height:28px;}
-.nav-org-sb{height:26px;}
-.nav-org-mh{height:23px;}
-.nav-org-tems{height:26px;}
+.nav-org-dypu{height:42px;}
+.nav-org-sb{height:38px;}
+.nav-org-mh{height:34px;}
+.nav-org-tems{height:38px;}
 [data-theme="dark"] .nav-org-tems{
   content:url('/assets/ieee-tems-logo-dark.png');
 }
 [data-theme="light"] .nav-org-tems{
   content:url('/assets/ieee-tems-logo.png');
 }
-.nav-org-yp{height:27px;}
+.nav-org-yp{height:40px;}
 [data-theme="dark"] .nav-org-yp{
   content:url('/assets/ieee-yp-logo-dark.png');
 }
 [data-theme="light"] .nav-org-yp{
   content:url('/assets/ieee-yp-logo.png');
 }
-.nav-org-betic{height:30px;}
+.nav-org-betic{height:44px;}
 [data-theme="dark"] .nav-org-betic{
   content:url('/assets/betic-logo-dark.png');
 }
@@ -315,10 +316,9 @@ nav{
   content:url('/assets/betic-logo.png');
 }
 .nav-org-iitb{
-  height:32px;
-  /* In dark mode: screen blend removes white bg, leaving only the blue emblem */
-  mix-blend-mode:screen;
-  filter:brightness(1.1) contrast(1);
+  height:46px;
+  mix-blend-mode:normal;
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,0.15));
   border-radius:4px;
 }
 [data-theme="light"] .nav-org-iitb{
@@ -326,12 +326,27 @@ nav{
   filter:none;
   background:transparent;
 }
-@media(max-width:1120px){
+@media(max-width:1320px){
+  .nav-org-logos{gap:11px;}
+  .nav-org-logo{height:30px;}
+  .nav-org-dypu{height:34px;}
+  .nav-org-sb{height:32px;}
+  .nav-org-mh{height:28px;}
+  .nav-org-tems{height:32px;}
+  .nav-org-yp{height:32px;}
+  .nav-org-betic{height:36px;}
+  .nav-org-iitb{height:38px;}
+}
+@media(max-width:1080px){
   .nav-org-logos{gap:8px;}
-  .nav-org-logo{height:22px;}
-  .nav-org-dypu{height:24px;}
-  .nav-org-betic{height:25px;}
-  .nav-org-iitb{height:26px;}
+  .nav-org-logo{height:24px;}
+  .nav-org-dypu{height:28px;}
+  .nav-org-sb{height:26px;}
+  .nav-org-mh{height:22px;}
+  .nav-org-tems{height:26px;}
+  .nav-org-yp{height:26px;}
+  .nav-org-betic{height:29px;}
+  .nav-org-iitb{height:30px;}
 }
 @media(max-width:880px){
   .nav-org-logos{display:none;}
