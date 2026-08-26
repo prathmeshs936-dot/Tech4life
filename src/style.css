@@ -265,31 +265,29 @@ header{
   transform:translateZ(0);
   -webkit-transform:translateZ(0);
   contain:layout style;
+  width:100%;
+  box-sizing:border-box;
 }
 nav{
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 20px;
+  padding:10px 16px;
   width:100%;
   max-width:1440px;
   margin:0 auto;
   box-sizing:border-box;
-  gap:12px;
+  gap:10px;
 }
 .brand{
-  font-family:var(--display);font-weight:700;font-size:16px;
-  display:flex;align-items:center;gap:8px;
-  white-space:nowrap;
+  display:flex;align-items:center;
   flex-shrink:0;
-  letter-spacing:0.02em;
 }
-.brand .dot{color:var(--crimson);}
 .brand-logo{height:36px;width:auto;object-fit:contain;display:block;}
 .footer-brand-logo{height:48px;width:auto;object-fit:contain;display:block;}
-.brand-group{display:flex;align-items:center;gap:12px;flex-shrink:1;min-width:0;}
+.brand-group{display:flex;align-items:center;gap:10px;flex:0 1 auto;min-width:0;}
 .nav-brand-divider{display:block;width:1px;height:26px;background:var(--nav-divider);flex-shrink:0;transition:background .4s;}
-.nav-org-logos{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;flex-shrink:1;}
+.nav-org-logos{display:flex;align-items:center;gap:9px;flex-wrap:nowrap;flex-shrink:1;}
 .nav-org-logo{
-  height:28px;width:auto;object-fit:contain;
+  height:27px;width:auto;object-fit:contain;
   flex-shrink:0;
   transition:transform .2s ease, opacity .2s ease;
   filter:drop-shadow(0 1px 2px rgba(0,0,0,0.1));
@@ -298,23 +296,23 @@ nav{
   transform:scale(1.08);
 }
 .nav-org-dypu{height:28px;}
-.nav-org-sb{height:28px;}
-.nav-org-mh{height:20px;}
-.nav-org-tems{height:28px;}
+.nav-org-sb{height:27px;}
+.nav-org-mh{height:19px;}
+.nav-org-tems{height:27px;}
 [data-theme="dark"] .nav-org-tems{
   content:url('/assets/ieee-tems-logo-dark.png');
 }
 [data-theme="light"] .nav-org-tems{
   content:url('/assets/ieee-tems-logo.png');
 }
-.nav-org-yp{height:28px;}
+.nav-org-yp{height:27px;}
 [data-theme="dark"] .nav-org-yp{
   content:url('/assets/ieee-yp-logo-dark.png');
 }
 [data-theme="light"] .nav-org-yp{
   content:url('/assets/ieee-yp-logo.png');
 }
-.nav-org-betic{height:32px;}
+.nav-org-betic{height:31px;}
 [data-theme="dark"] .nav-org-betic{
   content:url('/assets/betic-logo-dark.png');
 }
@@ -322,7 +320,7 @@ nav{
   content:url('/assets/betic-logo.png');
 }
 .nav-org-iitb{
-  height:34px;
+  height:33px;
   mix-blend-mode:normal;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,0.15));
   border-radius:4px;
@@ -332,35 +330,33 @@ nav{
   filter:none;
   background:transparent;
 }
-.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.nav-links{display:flex;gap:16px;align-items:center;}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto;}
+.nav-links{display:flex;gap:15px;align-items:center;}
 .nav-links a{
-  font-size:13.5px;color:var(--nav-link);
+  font-size:13px;color:var(--nav-link);
   transition:color .25s;
   font-weight:500;
   white-space:nowrap;
 }
 .nav-links a:hover{color:var(--nav-link-hover);}
+.nav-link-wa{
+  color:#25D366 !important;
+  font-weight:600 !important;
+}
 .nav-cta{
   font-family:var(--mono);font-size:12px;font-weight:600;
   background:var(--crimson);color:#fff;
   padding:7px 14px;border-radius:7px;
   transition:transform .2s ease, box-shadow .25s ease;
   white-space:nowrap;
+  flex-shrink:0;
   box-shadow:0 0 10px rgba(255,59,92,0.45), 0 0 20px rgba(255,59,92,0.2);
 }
 .nav-cta:hover{
   transform:translateY(-2px);
   box-shadow:0 0 16px rgba(255,59,92,0.8), 0 0 32px rgba(255,59,92,0.45);
 }
-.nav-cta-wa{
-  background:#25D366;
-  box-shadow:0 0 10px rgba(37,211,102,0.45), 0 0 20px rgba(37,211,102,0.2);
-}
-.nav-cta-wa:hover{
-  box-shadow:0 0 16px rgba(37,211,102,0.8), 0 0 32px rgba(37,211,102,0.45);
-}
-.nav-toggle{display:none;background:none;border:none;color:var(--nav-toggle);font-size:22px;cursor:pointer;transition:color .3s;}
+.nav-toggle{display:none;background:none;border:none;color:var(--nav-toggle);font-size:22px;cursor:pointer;transition:color .3s;flex-shrink:0;}
 
 /* ── theme toggle button ── */
 .theme-toggle{
@@ -383,24 +379,21 @@ nav{
   color:var(--pulse);
 }
 
-@media(max-width:1260px){
+@media(max-width:1200px){
   .nav-org-logos{gap:7px;}
-  .nav-org-logo{height:24px;}
+  .nav-org-logo{height:23px;}
   .nav-org-dypu{height:24px;}
-  .nav-org-sb{height:24px;}
-  .nav-org-mh{height:18px;}
-  .nav-org-tems{height:24px;}
-  .nav-org-yp{height:24px;}
-  .nav-org-betic{height:26px;}
-  .nav-org-iitb{height:28px;}
-  .nav-links{gap:12px;}
-}
-@media(max-width:1080px){
+  .nav-org-sb{height:23px;}
+  .nav-org-mh{height:17px;}
+  .nav-org-tems{height:23px;}
+  .nav-org-yp{height:23px;}
+  .nav-org-betic{height:25px;}
+  .nav-org-iitb{height:26px;}
   .nav-links{display:none;}
   .nav-toggle{display:block;}
   .nav-links.open{
     display:flex;
-    position:fixed;top:65px;left:0;right:0;
+    position:fixed;top:60px;left:0;right:0;
     background:var(--nav-mobile-bg);
     flex-direction:column;
     padding:20px 28px 26px;
