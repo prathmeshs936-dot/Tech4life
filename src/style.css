@@ -287,6 +287,7 @@ nav{
   flex-shrink:0;
 }
 .nav-org-dypu{height:32px;}
+.nav-org-sb{height:30px;}
 .nav-org-yp{height:30px;}
 [data-theme="dark"] .nav-org-yp{
   content:url('/assets/ieee-yp-logo-dark.png');
