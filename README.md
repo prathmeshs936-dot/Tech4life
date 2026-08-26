@@ -1,8 +1,8 @@
-# Hack-X 2026 – Medical Devices Hackathon 🚀
+# MEDHA 2026 TECH4LIFE 2026 – Medical Devices Hackathon 🚀
 
-A modern, high-performance landing page for the **Hack-X 2026 Medical Devices Hackathon**, built with [Vite](https://vitejs.dev/), vanilla JavaScript, and CSS.
+A modern, high-performance landing page for the **MEDHA 2026 TECH4LIFE 2026 Medical Devices Hackathon**, built with [Vite](https://vitejs.dev/), vanilla JavaScript, and CSS.
 
-Hack-X is a 36-hour national-level innovation challenge where students, developers, and healthcare enthusiasts collaborate to prototype real-world medical device solutions. Phase 01 takes place at Ajeenkya D Y Patil University, Pune, and Phase 02 at IIT Bombay.
+MEDHA 2026 TECH4LIFE 2026 is a 36-hour national-level innovation challenge where students, developers, and healthcare enthusiasts collaborate to prototype real-world medical device solutions. Phase 01 takes place at Ajeenkya D Y Patil University, Pune, and Phase 02 at IIT Bombay.
 
 ## ✨ Features
 
@@ -32,11 +32,11 @@ You will need [Node.js](https://nodejs.org/) installed on your machine.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/hack-x-2026.git
+   git clone https://github.com/sumitkshah09/tech4life.git
    ```
 2. Navigate into the project directory:
    ```bash
-   cd hack-x-2026
+   cd tech4life
    ```
 3. Install the dependencies:
    ```bash
