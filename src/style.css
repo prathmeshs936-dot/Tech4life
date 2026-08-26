@@ -287,6 +287,13 @@ nav{
   flex-shrink:0;
 }
 .nav-org-dypu{height:32px;}
+.nav-org-yp{height:30px;}
+[data-theme="dark"] .nav-org-yp{
+  content:url('/assets/ieee-yp-logo-dark.png');
+}
+[data-theme="light"] .nav-org-yp{
+  content:url('/assets/ieee-yp-logo.png');
+}
 .nav-org-iitb{
   height:38px;
   /* In dark mode: screen blend removes white bg, leaving only the blue emblem */
