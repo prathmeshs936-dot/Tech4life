@@ -415,9 +415,45 @@ nav{
 }
 
 /* ---------- HERO ---------- */
+@keyframes heroBgZoomPan{
+  0%  { transform: scale(1.08) translate(0%,   0%);   }
+  25% { transform: scale(1.13) translate(-1.5%, 0.5%); }
+  50% { transform: scale(1.10) translate(0.5%, -1%);   }
+  75% { transform: scale(1.14) translate(1%,   0.8%);  }
+  100%{ transform: scale(1.08) translate(0%,   0%);   }
+}
 .hero{
   padding:96px 0 70px;
   position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+/* Animated background image layer */
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: url('/assets/hero-bg.png');
+  background-size: cover;
+  background-position: center center;
+  animation: heroBgZoomPan 22s ease-in-out infinite;
+  will-change: transform;
+  z-index:-2;
+}
+/* Dark-blue gradient overlay for readability */
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      160deg,
+      rgba(5,5,28,0.82)  0%,
+      rgba(6,14,52,0.75) 40%,
+      rgba(4,18,60,0.68) 70%,
+      rgba(5,5,28,0.80)  100%
+    );
+  z-index:-1;
 }
 /* --- hero radar widget (replaces full-width EKG) --- */
 .hero-radar{
