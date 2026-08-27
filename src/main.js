@@ -111,7 +111,7 @@ async function fetchTeamCount() {
     updateWidget(countEl,  fillEl,  trackEl);
     updateWidget(countEl2, fillEl2, trackEl2);
 
-    // ── Lock registration when slots are full ──
+    // ── Lock registration when slots are full (Limit: 10 teams) ──
     if (count >= max) {
       const heroBtn = document.getElementById('registerBtn');
       const ctaBtn  = document.getElementById('registerBtn2');
@@ -119,19 +119,31 @@ async function fetchTeamCount() {
 
       [heroBtn, ctaBtn].forEach(btn => {
         if (btn) {
-          btn.href = '#';
+          btn.href = 'javascript:void(0);';
           btn.removeAttribute('target');
           btn.removeAttribute('rel');
-          btn.textContent = 'Registrations Full';
+          btn.textContent = 'Registrations Full (10/10)';
           btn.classList.add('btn-disabled');
           btn.setAttribute('aria-disabled', 'true');
+          btn.style.pointerEvents = 'none';
           btn.addEventListener('click', e => e.preventDefault(), { capture: true });
         }
       });
 
       if (navBtn) {
+        navBtn.href = 'javascript:void(0);';
         navBtn.textContent = 'Full';
         navBtn.classList.add('btn-disabled');
+        navBtn.setAttribute('aria-disabled', 'true');
+        navBtn.style.pointerEvents = 'none';
+        navBtn.addEventListener('click', e => e.preventDefault(), { capture: true });
+      }
+
+      // Update CTA band subtitle
+      const ctaSub = document.querySelector('#register p');
+      if (ctaSub) {
+        ctaSub.textContent = 'Registrations are now closed — the 10-team limit has been reached.';
+        ctaSub.style.color = '#ff3b5c';
       }
 
       // Mark progress bars as full
