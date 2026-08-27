@@ -86,6 +86,7 @@ async function fetchTeamCount() {
 
   try {
     const res  = await fetch(CONFIG.teamCountUrl);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const count = Math.max(0, parseInt(data.count, 10) || 0);
     const max   = CONFIG.teamCountMax;
@@ -138,9 +139,10 @@ async function fetchTeamCount() {
     }
 
   } catch (err) {
-    console.warn('[TECH4LIFE] Could not fetch team count:', err);
-    if (countEl  && countEl.textContent  === '--') countEl.textContent  = '?';
-    if (countEl2 && countEl2.textContent === '--') countEl2.textContent = '?';
+    console.warn('[TECH4LIFE] Live team count fetch error:', err);
+    // Graceful fallback to 0 instead of broken symbols
+    if (countEl && countEl.textContent === '--') countEl.textContent = '0';
+    if (countEl2 && countEl2.textContent === '--') countEl2.textContent = '0';
   }
 }
 
