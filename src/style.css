@@ -440,7 +440,7 @@ nav{
   will-change: transform;
   z-index:-2;
 }
-/* Dark-blue gradient overlay for readability */
+/* Dark-blue gradient overlay for readability — both themes */
 .hero::after{
   content:"";
   position:absolute;
@@ -448,12 +448,23 @@ nav{
   background:
     linear-gradient(
       160deg,
-      rgba(5,5,28,0.82)  0%,
-      rgba(6,14,52,0.75) 40%,
-      rgba(4,18,60,0.68) 70%,
-      rgba(5,5,28,0.80)  100%
+      rgba(5,5,28,0.88)  0%,
+      rgba(6,14,60,0.82) 40%,
+      rgba(4,18,64,0.78) 70%,
+      rgba(5,5,28,0.88)  100%
     );
   z-index:-1;
+}
+/* Light theme: same dark overlay so text stays readable */
+[data-theme="light"] .hero::after{
+  background:
+    linear-gradient(
+      160deg,
+      rgba(4,8,40,0.86)  0%,
+      rgba(5,16,60,0.80) 40%,
+      rgba(3,14,58,0.76) 70%,
+      rgba(4,8,40,0.86)  100%
+    );
 }
 /* --- hero radar widget (replaces full-width EKG) --- */
 .hero-radar{
@@ -492,20 +503,30 @@ nav{
 .hero-right{display:flex;align-items:center;justify-content:center;}
 .hero-panel{
   width:100%;
-  background:var(--surface);
-  border:1px solid var(--surface-border);
+  background:rgba(8,12,40,0.55);
+  border:1px solid rgba(180,190,255,0.14);
   border-radius:20px;
   padding:26px 28px;
   backdrop-filter:blur(24px);
   -webkit-backdrop-filter:blur(24px);
   box-shadow:
-    0 0 0 1px rgba(0,212,142,0.06),
-    0 24px 64px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.06);
+    0 0 0 1px rgba(0,212,142,0.08),
+    0 24px 64px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.07);
   display:flex;flex-direction:column;gap:0;
   transition:background-color .35s, border-color .35s;
   contain:layout style;
 }
+/* Pin panel internals to dark-friendly colors in light theme */
+[data-theme="light"] .hero-panel{
+  background:rgba(6,10,38,0.62);
+  border-color:rgba(180,190,255,0.16);
+}
+[data-theme="light"] .panel-live-label{ color:rgba(160,175,220,0.8); }
+[data-theme="light"] .panel-stat{ border-bottom-color:rgba(180,190,255,0.1); }
+[data-theme="light"] .panel-stat-label{ color:rgba(130,148,200,0.85); }
+[data-theme="light"] .panel-stat-val{ color:#e0e8ff; }
+[data-theme="light"] .panel-footer{ color:rgba(130,148,200,0.8); border-top-color:rgba(180,190,255,0.1); }
 .panel-header{
   display:flex;align-items:center;gap:9px;
   margin-bottom:16px;
@@ -593,18 +614,22 @@ nav{
   animation: pulse-gradient 4s ease-in-out infinite;
   filter:drop-shadow(0 0 15px rgba(255, 42, 64, 0.4));
 }
+/* ── Hero text: always white/light — image overlay is always dark ── */
 .hero .tagline{
   font-family:var(--display);
   font-size:clamp(18px,2.6vw,26px);
-  color:var(--text);
+  color:#e8ecff;
   font-weight:500;
   max-width:600px;
 }
+[data-theme="light"] .hero .tagline{ color:#e8ecff; }
+
 .hero .sub{
-  color:var(--text-muted);
+  color:rgba(200,212,255,0.85);
   font-size:16px;
   max-width:560px;
 }
+[data-theme="light"] .hero .sub{ color:rgba(200,212,255,0.85); }
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;}
 
 /* =====================================================================
@@ -768,42 +793,50 @@ nav{
   max-width:1060px;
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
   border-radius:var(--radius);
   overflow:hidden;
-  background:transparent;
-  box-shadow:0 8px 32px rgba(0,0,0,0.15);
+  background:rgba(5,10,40,0.45);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
 }
 .vital{
   padding:20px 22px;
-  border-right:1px solid rgba(255,255,255,0.08);
+  border-right:1px solid rgba(255,255,255,0.10);
 }
 .vital:last-child{border-right:none;}
 .vital .label{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
-  text-transform:uppercase;color:#8B96C0;
+  text-transform:uppercase;
+  color:rgba(180,196,255,0.7);
   margin-bottom:7px;
+}
+/* Light theme: vitals label also stays light (hero has dark overlay) */
+[data-theme="light"] .vital .label{
+  color:rgba(180,196,255,0.7);
 }
 .vital .value{
   font-family:var(--display);font-weight:700;font-size:22px;
   line-height:1.2;
 }
 /* Neon colors per vital */
-.vital:nth-child(1) .value { color: #b46dff; text-shadow: 0 0 12px rgba(180, 109, 255, 0.4); } /* Neon Violet */
-.vital:nth-child(2) .value { color: #00ffaa; text-shadow: 0 0 12px rgba(0, 255, 170, 0.4); } /* Neon Green */
-.vital:nth-child(3) .value { color: #ffd700; text-shadow: 0 0 12px rgba(255, 215, 0, 0.4); } /* Neon Gold */
-.vital:nth-child(4) .value { color: #ff4455; text-shadow: 0 0 12px rgba(255, 68, 85, 0.4); } /* Neon Red */
+.vital:nth-child(1) .value { color: #b46dff; text-shadow: 0 0 12px rgba(180, 109, 255, 0.5); } /* Neon Violet */
+.vital:nth-child(2) .value { color: #00ffaa; text-shadow: 0 0 12px rgba(0, 255, 170, 0.5); } /* Neon Green */
+.vital:nth-child(3) .value { color: #ffd700; text-shadow: 0 0 12px rgba(255, 215, 0, 0.5); } /* Neon Gold */
+.vital:nth-child(4) .value { color: #ff4455; text-shadow: 0 0 12px rgba(255, 68, 85, 0.5); } /* Neon Red */
 
-/* Light mode: force all vital values to neon violet */
-[data-theme="light"] .vital .value {
-  color: #b46dff;
-  text-shadow: 0 0 12px rgba(180, 109, 255, 0.4);
-}
+/* Light theme: keep neon values — they pop on dark overlay */
+[data-theme="light"] .vital:nth-child(1) .value { color: #b46dff; text-shadow: 0 0 12px rgba(180,109,255,0.5); }
+[data-theme="light"] .vital:nth-child(2) .value { color: #00ffaa; text-shadow: 0 0 12px rgba(0,255,170,0.5); }
+[data-theme="light"] .vital:nth-child(3) .value { color: #ffd700; text-shadow: 0 0 12px rgba(255,215,0,0.5); }
+[data-theme="light"] .vital:nth-child(4) .value { color: #ff4455; text-shadow: 0 0 12px rgba(255,68,85,0.5); }
+
 @media(max-width:720px){
   .vitals{grid-template-columns:repeat(2,1fr);}
-  .vital{border-right:1px solid rgba(255,255,255,0.08);}
+  .vital{border-right:1px solid rgba(255,255,255,0.10);}
   .vital:nth-child(2n){border-right:none;}
-  .vital:nth-child(n+3){border-top:1px solid rgba(255,255,255,0.08);}
+  .vital:nth-child(n+3){border-top:1px solid rgba(255,255,255,0.10);}
 }
 
 /* ---------- SECTION HEADERS ---------- */
