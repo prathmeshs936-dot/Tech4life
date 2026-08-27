@@ -9,11 +9,11 @@ inject();
 // CONFIG — the only block you should need to touch before deploying.
 // =====================================================================
 const CONFIG = {
-  // TODO: paste your live Google Form link here once it's created
-  registerUrl: "https://forms.gle/1TGR3wAxKFdd9yF68",
+  // Google Form registration link
+  registerUrl: "https://forms.gle/3rV8NPLJAu8CrK8F8",
 
   // Google Apps Script Web App URL — returns { count: N }
-  teamCountUrl: "https://script.google.com/macros/s/AKfycbxik4daTZ90Jezg0ZnSqq8O-UpR7bGX_fYGoPN-KgEpMRw3VS0INJdBP2rVpg1aUvm4TQ/exec",
+  teamCountUrl: "https://script.google.com/macros/s/AKfycbyFboB32pBeSStdTfFEsqRTxrVr1uUuI5yNSKi4qFqlUDt1CTSD-ML0wX-kJKaKkrlxMw/exec",
 
   // Max team slots available
   teamCountMax: 10,
