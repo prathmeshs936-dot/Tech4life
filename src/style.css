@@ -721,3 +721,110 @@ footer{padding:clamp(28px,4vh,36px) 0 28px;}
   .hero h1{font-size:38px;}
   .cta-row{flex-direction:column;align-items:flex-start;}
 }
+
+/* =====================================================================
+   COLLABORATORS SECTION
+   ===================================================================== */
+.collab-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+  max-width:1100px;
+  margin:0 auto;
+}
+.collab-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:28px 20px;
+  background:rgba(0,180,255,0.05);
+  border:1px solid rgba(0,200,255,0.14);
+  border-radius:18px;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(0,200,255,0.06),
+    0 8px 28px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  text-align:center;
+}
+.collab-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(0,212,255,0.4);
+  box-shadow:
+    0 0 18px rgba(0,212,255,0.2),
+    0 12px 36px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+}
+[data-theme="light"] .collab-card{
+  background:rgba(0,120,200,0.04);
+  border-color:rgba(0,120,200,0.14);
+  box-shadow:0 4px 20px rgba(0,80,180,0.1);
+}
+[data-theme="light"] .collab-card:hover{
+  border-color:rgba(0,150,220,0.4);
+  box-shadow:0 0 16px rgba(0,150,220,0.18),0 8px 28px rgba(0,80,180,0.12);
+}
+
+/* Logo sizing — per brand */
+.collab-logo{
+  object-fit:contain;
+  display:block;
+  margin:0 auto;
+  max-width:100%;
+  transition:filter .25s, transform .25s;
+}
+.collab-card:hover .collab-logo{transform:scale(1.06);}
+
+/* Individual size tuning matching nav proportions */
+.collab-dypu { height:54px;  }
+.collab-sb   { height:52px;  }
+.collab-mh   { height:40px;  }
+.collab-tems { height:52px;  }
+.collab-yp   { height:52px;  }
+.collab-betic{ height:58px;  }
+.collab-iitb { height:58px;  border-radius:6px; }
+.collab-rkef { height:80px;  border-radius:8px; }
+
+/* Dark-theme: invert/lighten logos that are dark by default */
+[data-theme="dark"] .collab-tems{ filter:brightness(1.1) drop-shadow(0 0 4px rgba(0,200,255,0.2)); }
+[data-theme="dark"] .collab-betic{ filter:brightness(1.15) drop-shadow(0 0 4px rgba(0,200,255,0.2)); }
+[data-theme="dark"] .collab-yp  { filter:brightness(1.1); }
+
+/* RKEF logo has a dark background — show it as-is with a subtle border */
+.collab-rkef{
+  background:transparent;
+  border-radius:10px;
+}
+[data-theme="dark"] .collab-rkef{
+  filter:drop-shadow(0 0 6px rgba(0,212,255,0.25));
+}
+
+/* Name label */
+.collab-name{
+  font-family:var(--mono);
+  font-size:11.5px;
+  letter-spacing:0.04em;
+  color:var(--text-muted);
+  line-height:1.4;
+  text-align:center;
+}
+[data-theme="light"] .collab-name{color:var(--text-muted);}
+
+/* Responsive */
+@media(max-width:1024px){
+  .collab-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:720px){
+  .collab-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+  .collab-card{padding:22px 14px;gap:12px;}
+}
+@media(max-width:400px){
+  .collab-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .collab-card{padding:18px 10px;}
+  .collab-dypu,.collab-sb,.collab-tems,.collab-yp,.collab-betic,.collab-iitb{height:40px;}
+  .collab-rkef{height:60px;}
+}
