@@ -15,7 +15,7 @@ const CONFIG = {
   // Google Apps Script Web App URL — returns { count: N }
   teamCountUrl: "https://script.google.com/macros/s/AKfycbzGv2NrG8NVtLNFgS4IzaJM5fSEbBQZvdrWyhZ3-4T3gL324OW0TsFR6zn2IgVo5oUtZQ/exec",
 
-  // Max team slots available
+  // Max participant slots available
   teamCountMax: 40,
 
   // Set to a real date string (e.g. "2026-08-28") once confirmed,
@@ -104,14 +104,14 @@ async function fetchTeamCount() {
       }
       if (tEl) {
         tEl.setAttribute('aria-valuenow', count);
-        tEl.setAttribute('aria-valuetext', `${count} of ${max} teams registered`);
+        tEl.setAttribute('aria-valuetext', `${count} of ${max} participants registered`);
       }
     }
 
     updateWidget(countEl,  fillEl,  trackEl);
     updateWidget(countEl2, fillEl2, trackEl2);
 
-    // ── Lock registration when slots are full (Limit: 10 teams) ──
+    // ── Lock registration when slots are full (Limit: 40 participants) ──
     if (count >= max) {
       const heroBtn = document.getElementById('registerBtn');
       const ctaBtn  = document.getElementById('registerBtn2');
@@ -142,7 +142,7 @@ async function fetchTeamCount() {
       // Update CTA band subtitle
       const ctaSub = document.querySelector('#register p');
       if (ctaSub) {
-        ctaSub.textContent = 'Registrations are now closed — the 10-team limit has been reached.';
+        ctaSub.textContent = 'Registrations are now closed — the 40-participant limit has been reached.';
         ctaSub.style.color = '#ff3b5c';
       }
 
