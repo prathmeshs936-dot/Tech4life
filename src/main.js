@@ -16,7 +16,7 @@ const CONFIG = {
   teamCountUrl: "https://script.google.com/macros/s/AKfycbzGv2NrG8NVtLNFgS4IzaJM5fSEbBQZvdrWyhZ3-4T3gL324OW0TsFR6zn2IgVo5oUtZQ/exec",
 
   // Max team slots available
-  teamCountMax: 10,
+  teamCountMax: 40,
 
   // Set to a real date string (e.g. "2026-08-28") once confirmed,
   // or leave as null to keep showing the provisional label.
@@ -122,7 +122,7 @@ async function fetchTeamCount() {
           btn.href = 'javascript:void(0);';
           btn.removeAttribute('target');
           btn.removeAttribute('rel');
-          btn.textContent = 'Registrations Full (10/10)';
+          btn.textContent = 'Registrations Full (40/40)';
           btn.classList.add('btn-disabled');
           btn.setAttribute('aria-disabled', 'true');
           btn.style.pointerEvents = 'none';
