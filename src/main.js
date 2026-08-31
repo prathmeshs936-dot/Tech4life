@@ -13,7 +13,7 @@ const CONFIG = {
   registerUrl: "https://forms.gle/3rV8NPLJAu8CrK8F8",
 
   // Google Apps Script Web App URL — returns { count: N }
-  teamCountUrl: "https://script.google.com/macros/s/AKfycbwxrVIkD5ZiQReY_EY-HLnMNX9tnqsMT4oT6VU5rtnClxGp6F2q3y4Cak1-B6bjCuaTkQ/exec",
+  teamCountUrl: "https://script.google.com/macros/s/AKfycbwd98DFxylc3-3YNbdSpG7ucoxfbTwkZKb2SX3oBRrWJwdu84OQGQoQg0j2Hr5l5uxJYg/exec",
 
   // Max participant slots available
   teamCountMax: 40,
