@@ -93,6 +93,10 @@ img{display:block;max-width:100%;height:auto;}
 section{position:relative;}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px;}
 
+/* Smooth scroll-reveal for sections */
+.section,.cta-band{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(0.16,1,0.3,1),transform .7s cubic-bezier(0.16,1,0.3,1);will-change:opacity,transform;}
+.section.visible,.cta-band.visible{opacity:1;transform:translateY(0);}
+
 .wrap{
   max-width:1400px;
   margin:0 auto;
@@ -520,7 +524,7 @@ nav{
   font-family:var(--mono);font-weight:600;font-size:14px;
   padding:14px 24px;border-radius:10px;
   display:inline-flex;align-items:center;gap:8px;
-  transition:transform .15s,box-shadow .2s,background .2s,border-color .2s;
+  transition:transform .2s cubic-bezier(0.16,1,0.3,1),box-shadow .25s ease,background .25s ease,border-color .25s ease;
   border:1px solid transparent;position:relative;
   touch-action:manipulation;
 }
@@ -529,7 +533,8 @@ nav{
   box-shadow:0 0 8px rgba(0,212,255,0.7),0 0 22px rgba(0,212,255,0.45),0 0 46px rgba(0,212,255,0.2);
   animation:neonPulseCyan 2.4s ease-in-out infinite;
 }
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(0,212,255,0.95),0 0 32px rgba(0,212,255,0.65),0 0 70px rgba(0,212,255,0.35);}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 14px rgba(0,212,255,0.95),0 0 32px rgba(0,212,255,0.65),0 0 70px rgba(0,212,255,0.35);}
+.btn-primary:active{transform:translateY(0) scale(0.98);transition-duration:.1s;}
 @keyframes neonPulseCyan{
   0%,100%{box-shadow:0 0 8px rgba(0,212,255,0.7),0 0 22px rgba(0,212,255,0.45),0 0 46px rgba(0,212,255,0.2);}
   50%{box-shadow:0 0 14px rgba(0,212,255,0.95),0 0 34px rgba(0,212,255,0.6),0 0 60px rgba(0,212,255,0.3);}
@@ -581,7 +586,8 @@ nav{
 [data-theme="light"] .chip{border-color:var(--line);color:var(--text-muted);}
 [data-theme="light"] .chip:hover{border-color:var(--cyan);color:var(--cyan);}
 .diagnosis-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:background .4s,border-color .4s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
-.diagnosis-card .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--line);font-family:var(--mono);font-size:13.5px;transition:border-color .4s;}
+.diagnosis-card .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--line);font-family:var(--mono);font-size:13.5px;transition:border-color .4s,background .3s;border-radius:4px;}
+.diagnosis-card .row:hover{background:rgba(0,200,255,0.03);}
 .diagnosis-card .row:last-child{border-bottom:none;}
 .diagnosis-card .row span:first-child{color:var(--text-faint);}
 .diagnosis-card .row span:last-child{color:var(--text);font-weight:500;text-align:right;}
@@ -597,7 +603,8 @@ nav{
    PHASES
    ===================================================================== */
 .phases{display:flex;flex-direction:column;gap:0;}
-.phase{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:34px 0;border-top:1px solid var(--line);}
+.phase{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:34px 0;border-top:1px solid var(--line);transition:background .3s ease;}
+.phase:hover{background:rgba(0,200,255,0.02);}
 .phase-num{font-family:var(--mono);font-size:14px;color:var(--text-faint);padding-top:4px;}
 .phase-num .stage{display:block;font-family:var(--display);font-size:34px;font-weight:700;color:var(--text);margin-top:4px;}
 .phase.active .phase-num .stage{color:var(--cyan);text-shadow:0 0 18px rgba(0,212,255,0.55);}

@@ -15,13 +15,13 @@ const CONFIG = {
   // Google Apps Script Web App URL — returns { count: N }
   teamCountUrl: "https://script.google.com/macros/s/AKfycbwd98DFxylc3-3YNbdSpG7ucoxfbTwkZKb2SX3oBRrWJwdu84OQGQoQg0j2Hr5l5uxJYg/exec",
 
-  // Max participant slots available
-  teamCountMax: 40,
+  // Total participants registered (display only, no cap)
+  teamCountMax: 90,
 
   // Set to a real date string (e.g. "2026-08-28") once confirmed,
   // or leave as null to keep showing the provisional label.
   eventDateISO: null,
-  eventDateLabel: "8th - 9th September 2026"
+  eventDateLabel: "22nd - 23rd September 2026"
 };
 
 function applyConfig(){
@@ -76,12 +76,7 @@ function animateCounter(el, target, duration = 1100) {
 
 async function fetchTeamCount() {
   const countEl  = document.getElementById('liveRegCount');
-  const fillEl   = document.getElementById('liveRegFill');
-  const trackEl  = document.getElementById('liveRegProgress');
-  // Second instance (CTA band)
-  const countEl2  = document.getElementById('liveRegCount2');
-  const fillEl2   = document.getElementById('liveRegFill2');
-  const trackEl2  = document.getElementById('liveRegProgress2');
+  const countEl2 = document.getElementById('liveRegCount2');
   if (!countEl && !countEl2) return;
 
   try {
@@ -89,66 +84,10 @@ async function fetchTeamCount() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const count = Math.max(0, parseInt(data.count, 10) || 0);
-    const max   = CONFIG.teamCountMax;
 
-    // Helper to update one count+bar pair
-    function updateWidget(cEl, fEl, tEl) {
-      if (cEl) animateCounter(cEl, count);
-      if (fEl) {
-        setTimeout(() => {
-          const pct = Math.min(100, (count / max) * 100).toFixed(1);
-          fEl.style.width = pct + '%';
-          if (count / max >= 0.75) fEl.classList.add('warn');
-          else fEl.classList.remove('warn');
-        }, 80);
-      }
-      if (tEl) {
-        tEl.setAttribute('aria-valuenow', count);
-        tEl.setAttribute('aria-valuetext', `${count} of ${max} participants registered`);
-      }
-    }
-
-    updateWidget(countEl,  fillEl,  trackEl);
-    updateWidget(countEl2, fillEl2, trackEl2);
-
-    // ── Lock registration when slots are full (Limit: 40 participants) ──
-    if (count >= max) {
-      const heroBtn = document.getElementById('registerBtn');
-      const ctaBtn  = document.getElementById('registerBtn2');
-      const navBtn  = document.getElementById('navRegisterBtn');
-
-      [heroBtn, ctaBtn].forEach(btn => {
-        if (btn) {
-          btn.href = 'javascript:void(0);';
-          btn.removeAttribute('target');
-          btn.removeAttribute('rel');
-          btn.textContent = 'Registrations Full (40/40)';
-          btn.classList.add('btn-disabled');
-          btn.setAttribute('aria-disabled', 'true');
-          btn.style.pointerEvents = 'none';
-          btn.addEventListener('click', e => e.preventDefault(), { capture: true });
-        }
-      });
-
-      if (navBtn) {
-        navBtn.href = 'javascript:void(0);';
-        navBtn.textContent = 'Full';
-        navBtn.classList.add('btn-disabled');
-        navBtn.setAttribute('aria-disabled', 'true');
-        navBtn.style.pointerEvents = 'none';
-        navBtn.addEventListener('click', e => e.preventDefault(), { capture: true });
-      }
-
-      // Update CTA band subtitle
-      const ctaSub = document.querySelector('#register p');
-      if (ctaSub) {
-        ctaSub.textContent = 'Registrations are now closed — the 40-participant limit has been reached.';
-        ctaSub.style.color = '#ff3b5c';
-      }
-
-      // Mark progress bars as full
-      [fillEl, fillEl2].forEach(f => { if (f) f.classList.add('full'); });
-    }
+    // Update count display (no cap/limit — registration always open)
+    if (countEl) animateCounter(countEl, count);
+    if (countEl2) animateCounter(countEl2, count);
 
   } catch (err) {
     console.warn('[TECH4LIFE] Live team count fetch error:', err);
@@ -166,7 +105,7 @@ setInterval(fetchTeamCount, 60_000);
 // COUNTDOWN TIMER — counts down to 8th September 2026 00:00:00 IST
 // =====================================================================
 (function initCountdown() {
-  const TARGET = new Date('2026-09-08T00:00:00+05:30').getTime();
+  const TARGET = new Date('2026-09-22T00:00:00+05:30').getTime();
 
   const cdDays    = document.getElementById('cdDays');
   const cdHours   = document.getElementById('cdHours');
@@ -220,6 +159,36 @@ navLinks.querySelectorAll('a').forEach(a => {
 });
 
 // =====================================================================
+// SMOOTH SCROLL-REVEAL — IntersectionObserver for section fade-ins
+// =====================================================================
+(function initScrollReveal(){
+  const sections = document.querySelectorAll('.section, .cta-band');
+  if(!sections.length) return;
+
+  // Graceful fallback for older browsers
+  if(!('IntersectionObserver' in window)){
+    sections.forEach(s => s.classList.add('visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => {
+      if(entry.isIntersecting){
+        // Stagger the reveal slightly for visual polish
+        const delay = idx * 60;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  sections.forEach(s => observer.observe(s));
+})();
+
+// =====================================================================
 // THEME TOGGLE — light / dark, persisted in localStorage
 // =====================================================================
 const THEME_KEY = 'hackx-theme';
@@ -262,19 +231,31 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 // • Layer 2 — Constellation dots + mouse-reactive lines
 // • Layer 3 — Floating medical cross / DNA-helix particles
 // All drawn below z-index -2 so they never sit on top of text.
+// Delta-time driven for consistent speed across all frame-rates.
 // =====================================================================
 function initBackground(){
   const canvas = document.getElementById('bgCanvas');
   if(!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: false });
 
   let W, H, dpr, mouse = {x: -9999, y: -9999};
   let raf;
   let t = 0;
+  let lastFrame = performance.now();
+
+  // ── device capability detection ────────────────────────────────────
+  const isMobileDevice = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  const isLowPower = isMobileDevice && (navigator.hardwareConcurrency || 4) <= 4;
+  const auroraStep = isMobileDevice ? 8 : 4; // coarser wave on mobile
+
+  // ── FPS tracking for adaptive quality ──────────────────────────────
+  let frameCount = 0;
+  let fpsAccum = 0;
+  let avgFps = 60;
+  let skipConstellationLines = false; // auto-degrade if FPS too low
 
   // ── resize ──────────────────────────────────────────────────────────
   function resize(){
-    // Cap DPR at 1.5 on mobile to halve the pixel budget on Retina phones
     const isMobile = window.innerWidth <= 820;
     dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
     W = window.innerWidth;
@@ -290,11 +271,9 @@ function initBackground(){
   // ── particles ───────────────────────────────────────────────────────
   const COLORS = ['#FF3B5C','#00E5A0','#FFB627','#7B6FFF'];
   let dots = [], crosses = [];
-  // Fewer particles on mobile = less draw-call overhead
-  const isMobileDevice = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
   function rebuildParticles(){
-    const cap = isMobileDevice ? 40 : 90;
+    const cap = isLowPower ? 25 : (isMobileDevice ? 40 : 90);
     const n = Math.min(cap, Math.floor(W * H / 14000));
     dots = Array.from({length: n}, () => ({
       x:  Math.random() * W,  y: Math.random() * H,
@@ -304,7 +283,7 @@ function initBackground(){
       pulse: Math.random() * Math.PI * 2
     }));
 
-    const crossCap = isMobileDevice ? 8 : 28;
+    const crossCap = isLowPower ? 4 : (isMobileDevice ? 8 : 28);
     const nc = Math.min(crossCap, Math.floor(W * H / 50000));
     crosses = Array.from({length: nc}, () => ({
       x:  Math.random() * W,  y: Math.random() * H,
@@ -327,7 +306,7 @@ function initBackground(){
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.moveTo(0, H);
-    for(let x = 0; x <= W; x += 4){
+    for(let x = 0; x <= W; x += auroraStep){
       const y = yBase + Math.sin(x * freq + phase) * amp
                        + Math.sin(x * freq * .6 + phase * 1.3) * (amp * .45)
                        + Math.sin(x * freq * .3 + phase * .7) * (amp * .25);
@@ -355,10 +334,28 @@ function initBackground(){
     ctx.restore();
   }
 
-  // ── main loop ───────────────────────────────────────────────────────
-  function frame(){
+  // ── main loop (delta-time driven) ──────────────────────────────────
+  function frame(now){
+    // Delta-time: consistent speed regardless of frame-rate
+    const dt = Math.min((now - lastFrame) / 1000, 0.1); // cap at 100ms to prevent jumps
+    lastFrame = now;
+
+    // FPS tracking — auto-degrade constellation lines if consistently below 30fps
+    frameCount++;
+    fpsAccum += dt;
+    if(fpsAccum >= 1.0){
+      avgFps = frameCount / fpsAccum;
+      frameCount = 0;
+      fpsAccum = 0;
+      skipConstellationLines = avgFps < 28;
+    }
+
     ctx.clearRect(0, 0, W, H);
-    t += .004;
+    // Fill background to avoid transparency flicker
+    ctx.fillStyle = (typeof window.getHackxTheme === 'function' && window.getHackxTheme() === 'light') ? '#f0f8ff' : '#050d1f';
+    ctx.fillRect(0, 0, W, H);
+
+    t += dt * 0.8; // smooth time advance, ~0.004 per frame at 60fps equivalent
 
     const isLight = (typeof window.getHackxTheme === 'function')
       && window.getHackxTheme() === 'light';
@@ -376,43 +373,51 @@ function initBackground(){
       drawAurora(H * .38, H * .13, .0009, t * .55 + 1.2,   '#FFB627', .038);
     }
 
-    // === CONSTELLATION LINES ===
-    const lineColor  = isLight ? '#0070c0' : '#00E5A0';
-    const mouseColor = isLight ? '#d97000' : '#FFB627';
-    const lineAlpha  = isLight ? .06 : .09;
-    const mouseAlpha = isLight ? .08 : .12;
+    // === CONSTELLATION LINES (skip on low FPS) ===
+    if(!skipConstellationLines){
+      const lineColor  = isLight ? '#0070c0' : '#00E5A0';
+      const mouseColor = isLight ? '#d97000' : '#FFB627';
+      const lineAlpha  = isLight ? .06 : .09;
+      const mouseAlpha = isLight ? .08 : .12;
+      const connDist   = isMobileDevice ? 100 : 130;
 
-    for(let i = 0; i < dots.length; i++){
-      for(let j = i + 1; j < dots.length; j++){
-        const a = dots[i], b = dots[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.hypot(dx, dy);
-        if(dist < 130){
+      for(let i = 0; i < dots.length; i++){
+        for(let j = i + 1; j < dots.length; j++){
+          const a = dots[i], b = dots[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const distSq = dx * dx + dy * dy;
+          if(distSq < connDist * connDist){
+            const dist = Math.sqrt(distSq);
+            ctx.save();
+            ctx.globalAlpha = lineAlpha * (1 - dist / connDist);
+            ctx.strokeStyle = lineColor;
+            ctx.lineWidth = .7;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            ctx.restore();
+          }
+        }
+        // mouse-reactive halo
+        const mdx = dots[i].x - mouse.x, mdy = dots[i].y - mouse.y;
+        const mdSq = mdx * mdx + mdy * mdy;
+        if(mdSq < 32400){ // 180^2
+          const md = Math.sqrt(mdSq);
           ctx.save();
-          ctx.globalAlpha = lineAlpha * (1 - dist / 130);
-          ctx.strokeStyle = lineColor;
-          ctx.lineWidth = .7;
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          ctx.globalAlpha = mouseAlpha * (1 - md / 180);
+          ctx.strokeStyle = mouseColor;
+          ctx.lineWidth = .8;
+          ctx.beginPath(); ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
           ctx.restore();
         }
       }
-      // mouse-reactive halo
-      const md = Math.hypot(dots[i].x - mouse.x, dots[i].y - mouse.y);
-      if(md < 180){
-        ctx.save();
-        ctx.globalAlpha = mouseAlpha * (1 - md / 180);
-        ctx.strokeStyle = mouseColor;
-        ctx.lineWidth = .8;
-        ctx.beginPath(); ctx.moveTo(dots[i].x, dots[i].y);
-        ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-        ctx.restore();
-      }
     }
 
-    // === GLOWING DOTS ===
+    // === GLOWING DOTS (delta-time movement) ===
+    const speed60 = dt * 60; // normalize to 60fps equivalent
     for(const p of dots){
-      p.x += p.vx; p.y += p.vy;
-      p.pulse += .025;
+      p.x += p.vx * speed60;
+      p.y += p.vy * speed60;
+      p.pulse += .025 * speed60;
       if(p.x < 0 || p.x > W) p.vx *= -1;
       if(p.y < 0 || p.y > H) p.vy *= -1;
       const pulse = .55 + .45 * Math.sin(p.pulse);
@@ -429,10 +434,11 @@ function initBackground(){
       ctx.restore();
     }
 
-    // === MEDICAL CROSS PARTICLES ===
+    // === MEDICAL CROSS PARTICLES (delta-time movement) ===
     for(const c of crosses){
-      c.x += c.vx; c.y += c.vy;
-      c.rot += c.rotV;
+      c.x += c.vx * speed60;
+      c.y += c.vy * speed60;
+      c.rot += c.rotV * speed60;
       if(c.x < -30 || c.x > W + 30) c.vx *= -1;
       if(c.y < -30 || c.y > H + 30) c.vy *= -1;
       drawCross(c.x, c.y, c.size, c.rot, c.color, isLight ? c.alpha * 1.8 : c.alpha);
@@ -441,19 +447,34 @@ function initBackground(){
     raf = requestAnimationFrame(frame);
   }
 
-  // ── mouse tracking ──────────────────────────────────────────────────
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  // ── throttled mouse/touch tracking ─────────────────────────────────
+  let mouseThrottle = 0;
+  window.addEventListener('mousemove', e => {
+    const now = performance.now();
+    if(now - mouseThrottle < 16) return; // ~60fps cap
+    mouseThrottle = now;
+    mouse.x = e.clientX; mouse.y = e.clientY;
+  }, { passive: true });
   window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; }, { passive: true });
+
   // Touch: treat touch position as mouse for constellation lines
+  let touchThrottle = 0;
   window.addEventListener('touchmove', e => {
+    const now = performance.now();
+    if(now - touchThrottle < 16) return;
+    touchThrottle = now;
     if (e.touches.length > 0) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
   }, { passive: true });
   window.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; }, { passive: true });
 
   // ── pause RAF when tab is hidden (saves battery & prevents jank on switch) ──
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cancelAnimationFrame(raf); }
-    else { frame(); }
+    if (document.hidden) {
+      cancelAnimationFrame(raf);
+    } else {
+      lastFrame = performance.now(); // reset delta to avoid huge jump
+      raf = requestAnimationFrame(frame);
+    }
   }, { passive: true });
 
   // ── kick off ────────────────────────────────────────────────────────
@@ -462,9 +483,13 @@ function initBackground(){
   window.addEventListener('resize', () => {
     cancelAnimationFrame(raf);
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { resize(); frame(); }, 250);
+    resizeTimer = setTimeout(() => {
+      resize();
+      lastFrame = performance.now();
+      raf = requestAnimationFrame(frame);
+    }, 200);
   }, { passive: true });
-  frame();
+  raf = requestAnimationFrame(frame);
 }
 
 if(!prefersReduced){
@@ -477,7 +502,7 @@ if(!prefersReduced){
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    ctx.fillStyle = '#0A0E27';
+    ctx.fillStyle = '#050d1f';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 }
