@@ -12,11 +12,7 @@ const CONFIG = {
   // Google Form registration link
   registerUrl: "https://forms.gle/3rV8NPLJAu8CrK8F8",
 
-  // Google Apps Script Web App URL — returns { count: N }
-  teamCountUrl: "https://script.google.com/macros/s/AKfycbwd98DFxylc3-3YNbdSpG7ucoxfbTwkZKb2SX3oBRrWJwdu84OQGQoQg0j2Hr5l5uxJYg/exec",
 
-  // Total participants registered (display only, no cap)
-  teamCountMax: 90,
 
   // Set to a real date string (e.g. "2026-08-28") once confirmed,
   // or leave as null to keep showing the provisional label.
@@ -59,47 +55,7 @@ function applyConfig(){
 }
 applyConfig();
 
-// =====================================================================
-// LIVE REGISTRATION COUNT
-// =====================================================================
-function animateCounter(el, target, duration = 1100) {
-  const startTime = performance.now();
-  function tick(now) {
-    const p = Math.min((now - startTime) / duration, 1);
-    const eased = p < 1 ? 1 - Math.pow(1 - p, 3) : 1; // ease-out cubic
-    el.textContent = Math.floor(eased * target);
-    if (p < 1) requestAnimationFrame(tick);
-    else el.textContent = target;
-  }
-  requestAnimationFrame(tick);
-}
 
-async function fetchTeamCount() {
-  const countEl  = document.getElementById('liveRegCount');
-  const countEl2 = document.getElementById('liveRegCount2');
-  if (!countEl && !countEl2) return;
-
-  try {
-    const res  = await fetch(CONFIG.teamCountUrl);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const count = Math.max(0, parseInt(data.count, 10) || 0);
-
-    // Update count display (no cap/limit — registration always open)
-    if (countEl) animateCounter(countEl, count);
-    if (countEl2) animateCounter(countEl2, count);
-
-  } catch (err) {
-    console.warn('[TECH4LIFE] Live team count fetch error:', err);
-    // Graceful fallback to 0 instead of broken symbols
-    if (countEl && countEl.textContent === '--') countEl.textContent = '0';
-    if (countEl2 && countEl2.textContent === '--') countEl2.textContent = '0';
-  }
-}
-
-// Fetch immediately, then refresh every 60 s
-fetchTeamCount();
-setInterval(fetchTeamCount, 60_000);
 
 // =====================================================================
 // COUNTDOWN TIMER — counts down to 8th September 2026 00:00:00 IST
